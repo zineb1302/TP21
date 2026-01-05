@@ -1,0 +1,170 @@
+{
+	"info": {
+		"_postman_id": "microservices-tp21",
+		"name": "Microservices TP21 - Eureka + WebClient",
+		"description": "Collection pour tester l'architecture microservices avec Eureka et WebClient",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Service Client",
+			"item": [
+				{
+					"name": "1. Créer un client",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nom\": \"Salma\",\n  \"age\": 22\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/clients",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8081",
+							"path": ["api", "clients"]
+						}
+					}
+				},
+				{
+					"name": "2. Récupérer tous les clients",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "http://localhost:8081/api/clients",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8081",
+							"path": ["api", "clients"]
+						}
+					}
+				},
+				{
+					"name": "3. Récupérer un client par ID",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "http://localhost:8081/api/clients/:id",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8081",
+							"path": ["api", "clients", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Service Car",
+			"item": [
+				{
+					"name": "4. Tester WebClient (appel inter-service)",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "http://localhost:8082/api/test/client/:id",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8082",
+							"path": ["api", "test", "client", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Teste que service-car peut appeler service-client via WebClient et Eureka"
+					}
+				},
+				{
+					"name": "5. Créer une voiture",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"marque\": \"Toyota\",\n  \"modele\": \"Yaris\",\n  \"clientId\": 1\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8082/api/cars",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8082",
+							"path": ["api", "cars"]
+						}
+					}
+				},
+				{
+					"name": "6. Récupérer toutes les voitures (avec enrichissement)",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "http://localhost:8082/api/cars",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8082",
+							"path": ["api", "cars"]
+						},
+						"description": "Enrichit chaque voiture avec les données du client via WebClient"
+					}
+				},
+				{
+					"name": "7. Récupérer les voitures d'un client",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "http://localhost:8082/api/cars/byClient/:clientId",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8082",
+							"path": ["api", "cars", "byClient", ":clientId"],
+							"variable": [
+								{
+									"key": "clientId",
+									"value": "1"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Eureka Dashboard",
+			"item": [
+				{
+					"name": "Vérifier Eureka Dashboard",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "http://localhost:8761",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8761"
+						},
+						"description": "Ouvrir dans le navigateur pour voir les services enregistrés"
+					}
+				}
+			]
+		}
+	]
+}
+
